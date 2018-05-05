@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pdsu.education.model.AgeRange">
+    <resultMap id="ageMap" type="AgeRange">
+        <id column="id" property="id"/>
+        <result column="start_age" property="startAge"/>
+        <result column="end_age" property="endAge"/>
+        <result column="name" property="name"/>
+        <result column="modified" property="updateTime"/>
+    </resultMap>
+    <insert id="createAgeRange" parameterType="AgeRange" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO
+                education_range(start_age, end_age, name, modified)
+            VALUES
+                (#{startAge}, #{endAge}, #{name}, Now())
+        ]]>
+    </insert>
+    <select id="queryAllAgeRange" resultMap="ageMap">
+        <![CDATA[
+            SELECT 
+                id, start_age, end_age, name, modified
+            FROM
+                education_range 
+            WHERE 
+                deleted = 0
+        ]]>
+    </select>
+</mapper>

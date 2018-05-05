@@ -1,0 +1,62 @@
+@CHARSET "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Arial";
+}
+#parent {
+  width: 100%;
+  background-color: gray;
+  min-height: 100%;
+  margin: 0 auto;
+}
+
+#main {
+  overflow: hidden;
+  height: 90%;
+  width: 100%;
+}
+
+#content {
+  float: right;
+  height: 100%;
+  width: 85%;
+  background-color: #EDEDEF;
+  position: relative;
+}
+
+.creat_exam_div {
+  margin-top: 20px;
+  margin-right: 30px;
+}
+
+.lable_fornt {
+  color: gray;
+  margin-left: 15px;
+}
+
+.question_show {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.question_input_style {
+  width: 300px;
+  height: 25px;
+}
+
+.question_title_show {
+  width: 300px;
+  height: 80px;
+}
+
+#welcome_span {
+  color: #eeca0e;
+  font-size: 25px;
+}
+#welocme {
+  margin-top: 249px;
+  margin-left: 345px;
+}

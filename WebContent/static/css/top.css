@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+}
+#top {
+  height: 10%;
+  background-color: #222222;
+  margin: 0 auto;
+}
+
+.logo {
+  float: left;
+  width: 300px;
+  height: 100%;
+  margin-left: 20px;
+  margin-top: -6px;
+  background-image: url("../images/logo.png");
+  background-repeat: no-repeat;
+}
+
+
+.logout {
+  float: right;
+  width: 50px;
+  height: 30%;
+  margin-right: 50px;
+  margin-top: 25px;
+}
+
+#logouttext {
+  color: #00EEFF;
+  font-size: 20px;
+}
+
+.user {
+  float: right;
+  width: 50px;
+  height: 30%;
+  margin-right: 110px;
+  margin-top: 25px;
+}
+
+#usertext {
+  color: white;
+  font-size: 20px;
+}

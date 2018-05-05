@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pdsu.education.model.Question">
+
+  <resultMap type="Answer" id="answerMap">
+     <id property="id" column="id"/>
+     <result property="answer" column="content"/> 
+     <result property="userId" column="user_id"/> 
+     <result property="userName" column="name"/>
+     <result property="questionId" column="question_id"/> 
+     <result property="updateTime" column="modified"/>
+     <result property="uImage" column="u_image"/> 
+  </resultMap>
+  <resultMap type="Question" id="questionMap">
+    <id property="id" column="id"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="image" column="image"/>
+    <result property="userId" column="user_id"/>
+    <result property="userName" column="name"/>
+    <result property="userImage" column="user_image"/>
+    <result property="updateTime" column="modified"/>
+    <collection property="answers" column="id" select="Select_Answer"/>
+  </resultMap>
+  
+  <select id="Select_Answer" resultMap="answerMap">
+     <![CDATA[
+     SELECT 
+         a.id,a.content,a.user_id,u.name,u.image as u_image,a.question_id,a.modified 
+     FROM 
+         answer as a,user as u
+     where 
+         a.user_id=u.id
+     AND
+         a.question_id=#{id}
+     ]]>
+  </select>
+  
+  <select id="getQuestionById" parameterType="int" resultMap="questionMap">
+     <![CDATA[
+	     SELECT 
+             q.id,q.title,q.content,q.image,q.user_id,u.name,u.image as user_image,q.deleted,q.modified
+         FROM
+             question as q,user as u 
+         WHERE 
+             q.user_id = u.id
+         AND 
+	         q.id = #{questionId}
+     ]]>
+  </select>
+  
+    <select id="queryAllQuestions" resultMap="questionMap" parameterType="map">
+        <![CDATA[
+            SELECT 
+                q.id,q.title,q.content,q.image,q.user_id,u.name,u.image as user_image,q.deleted,q.modified
+            FROM
+                question as q,user as u 
+            WHERE 
+                q.user_id = u.id
+            AND
+                q.title 
+            LIKE
+                #{keyword}
+            AND
+                q.deleted = false
+            ORDER BY
+                q.modified DESC
+            LIMIT
+                #{pageSize}
+            OFFSET
+                #{offset}
+        ]]>
+    </select>
+    <select id="queryQuestionByKeyWord" resultMap="questionMap" parameterType="string">
+        <![CDATA[
+            SELECT 
+                q.id,q.title,q.content,q.image,q.user_id,u.name,u.image as user_image,q.deleted,q.modified
+            FROM
+                question as q,user as u 
+            WHERE 
+                q.user_id = u.id
+            AND
+                q.title 
+            LIKE
+                #{keyword}
+            OR
+                q.content
+            LIKE
+                #{keyword}
+        ]]>
+    </select>
+    <select id="queryNewQuestion" resultMap="questionMap" parameterType="map">
+        <![CDATA[
+            SELECT 
+                q.id,q.title,q.content,q.image,q.user_id,u.name,q.deleted,q.modified
+            FROM
+                question as q,user as u 
+            WHERE 
+                q.user_id = u.id
+            AND
+                q.deleted = false
+            ORDER BY
+                q.modified DESC
+        ]]>
+    </select>
+    <select id="getQuestionCount" resultType="Integer" parameterType="String">
+        <![CDATA[
+            SELECT
+                count(id)
+            FROM
+                question
+            WHERE
+                title
+            LIKE
+                #{keyword}
+            AND
+                deleted = false
+        ]]>
+    </select>
+    <insert id="createQuestion" parameterType="Question" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO
+                question(title, content, image, user_id, modified)
+            VALUES
+                (#{title}, #{content}, #{image}, #{userId}, Now())
+        ]]>
+    </insert>
+    <insert id="createAnwer" parameterType="Answer" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO
+                answer(content, user_id, question_id, modified)
+            VALUES
+                (#{answer}, #{userId}, #{questionId}, Now())
+        ]]>
+    </insert>
+    <update id="deletedQuestion" parameterType="int">
+        <![CDATA[
+            UPDATE
+                question
+            SET
+                deleted = TRUE
+            WHERE
+                id = #{questionId}
+        ]]>
+    </update>
+</mapper>

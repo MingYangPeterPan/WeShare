@@ -1,0 +1,59 @@
+@CHARSET "UTF-8";
+
+.table_div {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.gray_font {
+  color: gray;
+}
+
+.keyword_button1 {
+  line-height: 25px;
+  width: 100px;
+  border-radius:5px;
+  background-color: #1BBC65;
+  color: white;
+  margin-left: 410px;
+  margin-top: 20px;
+}
+
+.cancle_button {
+  line-height: 25px;
+  width: 100px;
+  border-radius:5px;
+  background-color: #1BBC65;
+  color: white;
+  margin-left: 20px;
+}
+
+#title_label {
+  float: left;
+  margin-left: 365px;
+}
+.input_stype {
+  margin-left: 437px;
+}
+.question_span_style {
+  color: red;
+  margin-left: 10px;
+}
+
+.span_style {
+  color: red;
+  margin-left: 10px;
+}
+
+.question_show_last {
+  margin-top: 20px;
+}
+#question_information {
+  width: 100%;
+  height: 400px;
+  margin-top: 60px;
+}
+#cancle_submot_stype {
+  margin-left: 100px;
+  margin-top: -80px;
+}

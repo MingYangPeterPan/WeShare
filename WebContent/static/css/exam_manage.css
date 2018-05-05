@@ -1,0 +1,155 @@
+@CHARSET "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+}
+#exam_show {
+  position: absolute;
+  width: 100%;
+}
+
+.table_div {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.gray_font {
+  color: gray;
+}
+
+.table_div_title {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.black_font {
+  color: black;
+}
+
+.keyword_input {
+  line-height: 25px;
+  width: 200px;
+  border-radius:5px;
+}
+
+.keyword_button {
+  line-height: 25px;
+  width: 100px;
+  border-radius:5px;
+  background-color: #1BBC65;
+  color: white;
+  margin-left: 20px;
+}
+
+.create_exam_button {
+  line-height: 25px;
+  width: 100px;
+  border-radius:5px;
+  background-color: #1BBC65;
+  color: white;
+  margin-left: 532px;
+}
+
+.table {
+  margin-top: 10px;
+  margin-left: 34px;
+  margin-right: 28px;
+}
+
+.head_div {
+  margin-top: 30px;
+  margin-left: 300px;
+}
+
+.table_id {
+  text-align: center;
+  margin: 0;
+  line-height: 25px;
+}
+
+.table_exam_name {
+  text-align: center;
+  margin:0 0 0 -10;
+  width: 300px;
+  line-height: 25px;
+}
+
+.table_exam_description {
+  text-align: center;
+  margin:0 0 0 -10;
+  width: 400px;
+  line-height: 25px;
+}
+
+.table_exam_totalscore {
+  text-align: center;
+  margin:0 0 0 -10;
+  width: 100px;
+  line-height: 25px;
+}
+
+.table_exam_quantity {
+  text-align: center;
+  margin:0 0 0 -10;
+  width: 124px;
+  line-height: 25px;
+}
+
+.head_div {
+  margin-top: 30px;
+  margin-left: 300px;
+}
+
+.up {
+  width:25px;
+  height:20px;
+  background-image: url("../images/up.png");
+  background-repeat: no-repeat;
+  background-color: white;
+}
+
+.page_number {
+  text-align: center;
+  margin:0 0 0 0;
+  width: 25px;
+  line-height: 20px;
+}
+
+.page_number_center {
+  text-align: center;
+  margin:0 0 0 -10;
+  width: 25px;
+  line-height: 20px;
+}
+
+.down {
+  width:25px;
+  height:20px;
+  background-image: url("../images/down.png");
+  background-repeat: no-repeat;
+  background-color: white;
+}
+
+.lable_fornt {
+  color: gray;
+  margin-left: 15px;
+}
+
+.input_number {
+  width: 23px;
+  height: 23px;
+  margin-left: 5px;
+  border-radius:3px;
+}
+
+.lable_page {
+  color: gray;
+  margin-left: 1px;
+}
+
+.go_button {
+  width: 35px;
+  line-height: 20px;
+  background-color: #1BBC65;
+  color: white;
+}

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pdsu.education.model.Video">
+    <resultMap id="videoMap" type="Video">
+        <id column="pk_id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content_type_id" property="contentTypeId"/>
+        <result column="picture" property="image"/>
+        <result column="video" property="video"/>
+        <result column="descripe" property="discripe"/>
+        <result column="modified" property="updateTime"/>
+        <result column="range_id" property="age"/>
+        <result column="type_id" property="contentType"/>
+    </resultMap>
+    <insert id="createVideo" parameterType="News" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+        
+            INSERT INTO
+                video(title, descripe, picture, video, content_type_id, modified)
+            VALUES
+                (#{title}, #{discripe}, #{image}, #{video},#{contentTypeId}, Now())
+        ]]>
+    </insert>
+    <select id="getVideoCount" resultType="Integer" parameterType="map">
+        <![CDATA[
+            SELECT
+                count(a.pk_id)
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.title
+            LIKE
+                #{keyword}
+            AND
+                b.range_id = #{rangeId}
+            AND
+                b.type_id = #{typeId}
+            AND
+                a.deleted = false
+        ]]>
+    </select>
+    <select id="getVideoCountNoTypeId" resultType="Integer" parameterType="map">
+        <![CDATA[
+            SELECT
+                count(a.pk_id)
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.title
+            LIKE
+                #{keyword}
+            AND
+                b.range_id = #{rangeId}
+            AND
+                a.deleted = false
+        ]]>
+    </select>
+    <select id="getContentTypeId" resultType="Integer" parameterType="map">
+        <![CDATA[
+            SELECT
+                id
+            FROM
+                age_content
+            WHERE
+                range_id = #{age}
+            AND
+                type_id = #{type}
+        ]]>
+    </select>
+    <select id="queryAllVideo" resultMap="videoMap" parameterType="map">
+        <![CDATA[
+            SELECT 
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.title 
+            LIKE
+                #{keyword}
+            AND
+                a.deleted = false
+            AND
+                b.range_id = #{rangeId}
+            AND
+                b.type_id = #{typeId}
+            ORDER BY
+                a.modified DESC
+            LIMIT
+                #{pageSize}
+            OFFSET
+                #{offset}
+        ]]>
+    </select>
+    <select id="queryHotVideo" resultMap="videoMap" parameterType="int">
+        <![CDATA[
+            SELECT 
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.deleted = false
+            ORDER BY
+                a.modified DESC
+        ]]>
+    </select>
+    <select id="queryVideoByAgeId" resultMap="videoMap" parameterType="int">
+        <![CDATA[
+            SELECT 
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.deleted = false
+            AND b.id > #{ageId}
+            ORDER BY
+                a.modified DESC
+        ]]>
+    </select>
+    <select id="queryAllVideoNoTypeId" resultMap="videoMap" parameterType="map">
+        <![CDATA[
+            SELECT 
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b 
+            WHERE 
+                a.content_type_id = b.id
+            AND
+                a.title 
+            LIKE
+                #{keyword}
+            AND
+                a.deleted = false
+            AND
+                b.range_id = #{rangeId}
+            ORDER BY
+                a.modified DESC
+            LIMIT
+                #{pageSize}
+            OFFSET
+                #{offset}
+        ]]>
+    </select>
+    <select id="getVideoById" parameterType="int" resultMap="videoMap">
+        <![CDATA[
+            SELECT
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b
+            WHERE
+                a.content_type_id = b.id
+            AND
+                a.pk_id = #{videoId}
+        ]]>
+    </select>
+    <select id="getVideosByType" parameterType="int" resultMap="videoMap">
+        <![CDATA[
+            SELECT
+                a.pk_id, a.title, a.content_type_id, a.picture, a.video, a.descripe, a.modified, b.range_id, b.type_id
+            FROM
+                video AS a,age_content AS b
+            WHERE
+                a.content_type_id = b.id
+	        AND
+				a.deleted = false
+            AND
+                b.type_id = #{typeId}
+        ]]>
+    </select>
+</mapper>

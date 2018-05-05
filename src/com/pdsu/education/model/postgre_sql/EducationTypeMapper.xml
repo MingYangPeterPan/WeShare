@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pdsu.education.model.EducationType">
+    <resultMap id="educationTypeMap" type="EducationType">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="modified" property="updateTime"/>
+    </resultMap>
+    <insert id="createEducationType" parameterType="EducationType" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO
+                message(name, modified)
+            VALUES
+                (#{name}, Now())
+        ]]>
+    </insert>
+    <insert id="insertEducationType" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO
+                age_content(range_id, type_id,modified)
+            VALUES
+                (#{rangeId},#{typeId}, Now())
+        ]]>
+    </insert>
+    <delete id="deleteEducationType" parameterType="map">
+        <![CDATA[
+            DELETE FROM
+                age_content
+            WHERE
+                range_id=#{rangeId}
+            AND
+                type_id=#{typeId}
+        ]]>
+    </delete>
+    <select id="queryNoSelectType" resultMap="educationTypeMap" parameterType="int">
+        <![CDATA[
+            SELECT 
+                id, name, modified
+            FROM
+                education_type 
+            WHERE 
+                id 
+            NOT IN
+               (SELECT 
+                   type_id 
+                FROM 
+                   age_content 
+                WHERE
+                   range_id = #{ageRangeId})
+        ]]>
+    </select>
+    <select id="queryAllType" resultMap="educationTypeMap">
+        <![CDATA[
+            SELECT 
+                id, name, modified
+            FROM
+                education_type 
+            Order by modified asc
+        ]]>
+    </select>
+    <select id="querySelectType" resultMap="educationTypeMap" parameterType="int">
+        <![CDATA[
+            SELECT 
+                id, name, modified
+            FROM
+                education_type 
+            WHERE 
+                id 
+            IN
+               (SELECT 
+                   type_id 
+                FROM 
+                   age_content 
+                WHERE
+                   range_id = #{ageRangeId})
+        ]]>
+    </select>
+</mapper>

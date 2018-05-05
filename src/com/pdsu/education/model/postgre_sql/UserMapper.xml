@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pdsu.education.model.User">
+  
+  <resultMap type="Child" id="childMap">
+     <id property="id" column="id"/>
+     <result property="name" column="name"/> 
+     <result property="sex" column="sex"/> 
+     <result property="birthday" column="birthday"/> 
+     <result property="user_id" column="parentId"/> 
+     <result property="updateTime" column="updateTime"/> 
+  </resultMap>
+  <resultMap id="userMap" type="User" >
+    <id column="id" property="id"/>
+    <result column="name" property="userName"/>
+    <result column="loginName" property="loginName"/>
+    <result column="password" property="password"/>
+    <result column="phone" property="phone"/>
+    <result column="address" property="address"/>
+    <result column="deleted" property="deleted"/>
+    <result column="sex" property="sex"/>
+    <result column="roleType" property="roleType"/>
+    <result column="image" property="image"/>
+    <result column="loginTime" property="user_modified"/>
+    <collection property="childs" column="id" select="Select_Childs"/>
+  </resultMap>
+  
+  <select id="Select_Childs" resultMap="childMap">
+     <![CDATA[
+     SELECT 
+         id,name,sex,birthday,user_id,modified 
+     FROM 
+         child
+     where user_id=#{id}
+     ]]>
+  </select>
+  <select id="getUserCount" resultType="Integer">
+        <![CDATA[
+            SELECT
+                count(id)
+            FROM
+                user
+            WHERE 
+                deleted = false  
+        ]]>
+   </select>
+  <select id="getUserByName" parameterType="String" resultMap="userMap">
+      <![CDATA[
+          SELECT
+              id,name,user_name as loginName,password,phone,address,deleted,sex,role as roleType,image,modified as user_modified
+          FROM
+              user
+          WHERE
+              user_name = #{loginName}
+      ]]>
+  </select>
+  <update id="updateUser" parameterType="User">
+      <![CDATA[
+          UPDATE oes.users 
+          SET password = #{password}, gender = #{gender}, email = #{email}, address = #{address}, fulle_name = #{fullName}, telephone_number = #{phone}
+          WHERE pk_id = #{id}
+      ]]>
+  </update>
+  <update id="updateUserNoPassword" parameterType="User">
+      <![CDATA[
+          UPDATE oes.users 
+          SET gender = #{gender}, email = #{email}, address = #{address}, fulle_name = #{fullName}, telephone_number = #{phone}
+          WHERE pk_id = #{id}
+      ]]>
+  </update>
+  <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+       <![CDATA[
+           INSERT INTO
+               user(name, sex, user_name, password, role, image, phone, address, modified)
+           VALUES
+               (#{userName}, #{sex}, #{loginName}, #{password}, #{image}, #{roleType}, #{phone}, #{address}, Now())
+       ]]>
+  </insert>
+  <insert id="createChild" parameterType="Child" useGeneratedKeys="true" keyProperty="id">
+       <![CDATA[
+           INSERT INTO
+               child(name, sex, birthday, user_id, modified)
+           VALUES
+               (#{name}, #{sex}, #{birthday}, #{parentId}, Now())
+       ]]>
+  </insert>
+  
+  <select id="queryAllUser" resultMap="userMap" parameterType="map">
+        <![CDATA[
+            SELECT
+              id,name,user_name as loginName,password,phone,address,deleted,sex,role as roleType,image,modified as user_modified
+            FROM
+              user
+            WHERE 
+                deleted = false
+            ORDER BY
+                modified DESC
+            LIMIT
+                #{pageSize}
+            OFFSET
+                #{offset}
+        ]]>
+    </select>
+  <update id="deleteUser" parameterType="int">
+      <![CDATA[
+          UPDATE user 
+          SET deleted=1
+          WHERE id = #{id}
+      ]]>
+  </update>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.augmentum.oes.model.User">
+  <resultMap id="userMap" type="User" >
+    <id column="pk_id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="password" property="password"/>
+    <result column="gender" property="gender"/>
+    <result column="email" property="email"/>
+    <result column="address" property="address"/>
+    <result column="fulle_name" property="fullName"/>
+    <result column="telephone_number" property="phone"/>
+    <result column="roletype" property="roleType"/>
+    <result column="display_name" property="showRoleType"/>
+  </resultMap>
+  <select id="getUserByName" parameterType="String" resultMap="userMap">
+      <![CDATA[
+          SELECT
+              a.pk_id,a.name,a.password,a.gender,a.email,a.address,a.fulle_name,a.telephone_number,c.name as roletype,c.display_name
+          FROM
+              oes.users As a
+          INNER JOIN
+              oes.user_role As b
+          ON
+              a.pk_id = b.user_id
+          INNER JOIN
+              oes.role As c
+          ON
+              c.pk_id = b.role_id
+          WHERE
+              a.name = #{userName}
+      ]]>
+  </select>
+  <update id="updateUser" parameterType="User">
+      <![CDATA[
+          UPDATE oes.users 
+          SET password = #{password}, gender = #{gender}, email = #{email}, address = #{address}, fulle_name = #{fullName}, telephone_number = #{phone}
+          WHERE pk_id = #{id}
+      ]]>
+  </update>
+  <update id="updateUserNoPassword" parameterType="User">
+      <![CDATA[
+          UPDATE oes.users 
+          SET gender = #{gender}, email = #{email}, address = #{address}, fulle_name = #{fullName}, telephone_number = #{phone}
+          WHERE pk_id = #{id}
+      ]]>
+  </update>
+</mapper>

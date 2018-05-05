@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+}
+#left {
+  float: left;
+  height: 100%;
+  width: 15%;
+  background-color: #3D3D3D;
+}
+
+#left div{
+  cursor: pointer;
+}
+
+.questionbutton {
+  margin-top: 20px;
+  line-height:40px;
+}
+
+FONT {
+  color: white;
+  font-size: 18px;
+  margin-left: 15px;
+}
+
+.exambutton {
+  line-height:40px;
+}
+
+.profilebutton {
+  line-height:40px;
+}
+
+#left div:hover {
+  background:black;
+}

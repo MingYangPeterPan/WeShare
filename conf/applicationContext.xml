@@ -44,8 +44,8 @@ xsi:schemaLocation="
     <!-- MyBatis template -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-        <property name="typeAliasesPackage" value="com.pdsu.education.model"></property>
-        <property name="mapperLocations" value="classpath*:com/pdsu/education/model/postgre_sql/*Mapper.xml"></property>
+        <property name="typeAliasesPackage" value="com.ws.model"></property>
+        <property name="mapperLocations" value="classpath*:com/ws/model/mysql/*Mapper.xml"></property>
     </bean>
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
@@ -53,51 +53,18 @@ xsi:schemaLocation="
     <bean id="basedao" abstract="true">
         <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
     </bean>
-    <bean id="userDao" class="com.pdsu.education.dao.impl.UserDaoImpl" parent="basedao"/>
-    <bean id="questionDao" class="com.pdsu.education.dao.impl.QuestionDaoImpl" parent="basedao"/>
-    <bean id="newsDao" class="com.pdsu.education.dao.impl.NewsDaoImpl" parent="basedao"/>
-    <bean id="videoDao" class="com.pdsu.education.dao.impl.VideoDaoImpl" parent="basedao"/>
-    <bean id="systemDao" class="com.pdsu.education.dao.impl.SystemDaoImpl" parent="basedao"/>
+    <bean id="userDao" class="com.ws.dao.impl.UserDaoImpl" parent="basedao"/>
 
     <!-- Controller -->
-    <bean id="userController" class="com.pdsu.education.controller.UserController">
+    <bean id="userController" class="com.ws.controller.UserController">
         <property name="userService" ref="userService"/>
-    </bean>
-    <bean id="videoController" class="com.pdsu.education.controller.VideoController">
-        <property name="videoService" ref="videoService"/>
-    </bean>
-    <bean id="homeController" class="com.pdsu.education.controller.HomeController">
-        <property name="newsService" ref="newsService"/>
-        <property name="videoService" ref="videoService"/>
-        <property name="questionService" ref="questionService"></property>
-    </bean>
-    <bean id="systemSettingController" class="com.pdsu.education.controller.SystemSettingController">
-        <property name="systemService" ref="systemService"/>
-    </bean>
-    <bean id="newsController" class="com.pdsu.education.controller.NewsController">
-        <property name="newsService" ref="newsService"></property>
-    </bean>
-    <bean id="questionController" class="com.pdsu.education.controller.QuestionController">
-        <property name="questionService" ref="questionService"></property>
     </bean>
 
     <!-- Service -->
-    <bean id="questionService" class="com.pdsu.education.service.impl.QuestionServiceImpl">
-        <property name="questionDao" ref="questionDao"/>
-    </bean>
-    <bean id="userService" class="com.pdsu.education.service.impl.UserServiceImpl">
+    <bean id="userService" class="com.ws.service.impl.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
-    <bean id="newsService" class="com.pdsu.education.service.impl.NewsServiceImpl">
-        <property name="newsDao" ref="newsDao"/>
-    </bean>
-    <bean id="videoService" class="com.pdsu.education.service.impl.VideoServiceImpl">
-        <property name="videoDao" ref="videoDao"/>
-    </bean>
-    <bean id="systemService" class="com.pdsu.education.service.impl.SystemServiceImpl">
-        <property name="systemDao" ref="systemDao"/>
-    </bean>
-    
+
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
      <property name="maxUploadSize" value="104857600" />
      <property name="maxInMemorySize" value="4096" />
@@ -105,12 +72,12 @@ xsi:schemaLocation="
     </bean>
 
     <!-- block -->
-    <bean id="paginationBlock" class="com.pdsu.education.block.PaginationBlock">
+    <bean id="paginationBlock" class="com.ws.block.PaginationBlock">
       <property name="template" value="/WEB-INF/jsp/pagination.jsp"></property>
     </bean>
 
     <!-- Log class -->
-    <bean id="logMethodTime" class="com.pdsu.education.service.impl.LogMethodTime"></bean>
+    <bean id="logMethodTime" class="com.ws.service.impl.LogMethodTime"></bean>
     
     <!-- Transaction -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -119,16 +86,13 @@ xsi:schemaLocation="
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="updateUser" propagation="REQUIRED" read-only="false" rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="saveQuestion" propagation="REQUIRED" read-only="false" rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="updateQuestion" propagation="REQUIRED" read-only="false" rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="deleteQuestionById" propagation="REQUIRED" read-only="false" rollback-for="java.lang.RuntimeException"/>
             <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut expression="execution(* com.pdsu.education.service..*.*(..))" id="pc"/>
+        <aop:pointcut expression="execution(* com.ws.service..*.*(..))" id="pc"/>
         <aop:advisor advice-ref="logMethodTime" pointcut-ref="pc" order="1"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="pc" order="2"/>
     </aop:config>
-    <bean class="com.pdsu.education.util.SpringUtil"></bean>
+    <bean class="com.ws.util.SpringUtil"></bean>
 </beans>

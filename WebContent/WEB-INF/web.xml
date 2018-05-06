@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>EarlyEducation</display-name>
+  <display-name>WeShare</display-name>
   <welcome-file-list>
     <welcome-file>/static/html/index.html</welcome-file>
   </welcome-file-list>
@@ -14,7 +14,7 @@
   </error-page>
   <filter>
     <filter-name>Context</filter-name>
-    <filter-class>com.pdsu.education.web.filter.ContextFilter</filter-class>
+    <filter-class>com.ws.filter.ContextFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>Context</filter-name>
@@ -22,7 +22,7 @@
   </filter-mapping>
   <filter>
     <filter-name>Encoding</filter-name>
-    <filter-class>com.pdsu.education.web.filter.PageEncodingFilter</filter-class>
+    <filter-class>com.ws.filter.PageEncodingFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -34,7 +34,7 @@
   </filter-mapping>
   <filter>
     <filter-name>SessionFilter</filter-name>
-    <filter-class>com.pdsu.education.web.filter.SessionFilter</filter-class>
+    <filter-class>com.ws.filter.SessionFilter</filter-class>
     <init-param>
       <param-name>needLoginPages</param-name>
       <param-value>page/admin/init-data,page/question/create-question,page/question/answer-question,page/news/news-create,page/news/news-manage,page/video/video-manage,page/video/video-create,page/system/type-setting,page/user/all-users,page/video/video-load</param-value>
@@ -50,7 +50,7 @@
     <init-param>
       <description>mvc.xml</description>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:oes-mvc.xml</param-value>
+      <param-value>classpath:ws-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
